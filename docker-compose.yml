@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres_b:
+    image: postgres:13.3
+    container_name: "postgres_b"
+    environment:
+      POSTGRES_DB: "books"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5632:5432"
+    volumes:
+      - ./conf/postgres_b/entrypoints:/docker-entrypoint-initdb.d
+      #- postgres-data:/var/lib/postgresql/data
+
+  postgres_b1:
+    image: postgres:13.3
+    container_name: "postgres_b1"
+    environment:
+      POSTGRES_DB: "books"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5633:5432"
+    volumes:
+      - ./conf/postgres_b/entrypoints:/docker-entrypoint-initdb.d
+      #- postgres-data:/var/lib/postgresql/data
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
