@@ -12,8 +12,10 @@ services:
     ports:
       - "5632:5432"
     volumes:
-      - ./conf/postgres_b/entrypoints:/docker-entrypoint-initdb.d
+      - ./conf/postgres_b:/scripts
       #- postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres
 
   postgres_b1:
     image: postgres:13.3
@@ -26,8 +28,26 @@ services:
     ports:
       - "5633:5432"
     volumes:
-      - ./conf/postgres_b/entrypoints:/docker-entrypoint-initdb.d
+      - ./conf/postgres_b1/:/scripts/
       #- postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres
+
+  postgres_b2:
+    image: postgres:13.3
+    container_name: "postgres_b2"
+    environment:
+      POSTGRES_DB: "books"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5634:5432"
+    volumes:
+      - ./conf/postgres_b2/:/scripts/
+      #- postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres
 
 networks:
   postgres:
